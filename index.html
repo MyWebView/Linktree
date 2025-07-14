@@ -24,13 +24,49 @@
         }
 
         body {
-            background: linear-gradient(135deg, #6e8efb 0%, #a777e3 100%);
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
             color: var(--text-color);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Space comet animations */
+        .comet {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.6);
+            animation: cometFly linear infinite;
+            opacity: 0;
+            z-index: 0;
+        }
+
+        .comet::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), transparent);
+            transform-origin: left center;
+            transform: rotate(-45deg);
+        }
+
+        @keyframes cometFly {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(1000px, 500px);
+                opacity: 0;
+            }
         }
 
         .container {
@@ -52,6 +88,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             overflow: hidden;
             position: relative;
+            z-index: 1;
         }
 
         /* Enhanced glossy overlay */
@@ -107,22 +144,9 @@
         h1 {
             font-size: 24px;
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 20px;
             letter-spacing: 0.5px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .profile-profession {
-            font-size: 16px;
-            opacity: 0.9;
-            font-weight: 400;
-            margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            display: inline-block;
-            padding: 6px 15px;
-            border-radius: 20px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .links-container {
@@ -205,13 +229,13 @@
     </style>
 </head>
 <body>
+    <!-- Comets will be added here by JavaScript -->
     <div class="container">
         <div class="profile">
             <div class="profile-image">
                 <img src="img1.jpg" alt="Pranay Reddy Kandula">
             </div>
             <h1>Pranay Reddy Kandula</h1>
-            <div class="profile-profession">SEO Content Specialist</div>
         </div>
         
         <div class="links-container">
@@ -231,5 +255,42 @@
             </a>
         </div>
     </div>
+
+    <script>
+        // Create comets
+        function createComets() {
+            const body = document.body;
+            const numberOfComets = 5;
+            
+            for (let i = 0; i < numberOfComets; i++) {
+                const comet = document.createElement('div');
+                comet.classList.add('comet');
+                
+                // Random position
+                const startX = Math.random() * window.innerWidth - 200;
+                const startY = Math.random() * window.innerHeight - 200;
+                
+                // Random delay
+                const delay = Math.random() * 15;
+                
+                // Random duration
+                const duration = 5 + Math.random() * 10;
+                
+                // Apply styles
+                comet.style.left = `${startX}px`;
+                comet.style.top = `${startY}px`;
+                comet.style.animationDelay = `${delay}s`;
+                comet.style.animationDuration = `${duration}s`;
+                
+                body.appendChild(comet);
+            }
+        }
+        
+        // Create comets on load
+        window.addEventListener('load', createComets);
+        
+        // Create new comets periodically
+        setInterval(createComets, 5000);
+    </script>
 </body>
 </html>
